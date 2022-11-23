@@ -30,14 +30,14 @@ struct Node* push(struct Node* top,char *val ){
 }
 
 //deletion
-struct Node* pop(struct Node* top){
-
-   while (top->data != "")
+struct Node* display_history(struct Node* top){
+    int i = 1;
+    printf("\n\n\t\t    Here is your search history: \n");
+   while (top->next->next->data != "")
    {
-    printf("\n\n\n\t\t%s\n",top->data);
-
+    printf("\t\t    %d.  %s\n",i, top->data);
+    i++;
     top = top -> next;
-   
    }
    
 }  
@@ -107,18 +107,24 @@ int main()
             printf("\n\t Please enter year above 1945\n");
             continue;
         }
+        else if(nmonth > 12 || nmonth < 1){
+            printf("\n\n\t\t    Entered month number is invalid!\n");
+            goto enteryear;
+        }
         else
         {
             //If year greater than equal to 1945
             calendar(nyr,nmonth);
         }
+        
 
         while(1)
         {
         gotoxy(20,20);printf("(*) Use LEFT, RIGHT, UP and DOWN arrow.");
         gotoxy(20,22);printf("(*) Press P to go to particular year and month.");
-        gotoxy(20,24);printf("(*) Press ESC to Exit.");
-        gotoxy(20,26);printf("(*) Press R to go to the last viewed date.");
+        gotoxy(20,24);printf("(*) Press R to go to the last viewed date.");
+        gotoxy(20,26);printf("(*) Press C to clear history.");
+        gotoxy(20,28);printf("(*) Press ESC to Exit.");
         ch=getkey();
         switch(ch)
         {
@@ -153,6 +159,19 @@ int main()
                     nmonth--;
                 calendar(nyr,nmonth);
                 break;
+
+        case 114: //------------r key--------------
+            if (stacktop->data == ""){
+                printf("\n\n\t\t    Error! History is clear.\n");
+            }
+            display_history(stacktop);
+            break;
+        
+        case 67: //--------------c key ----------------
+            stacktop = create("");
+            break;
+
+
         case 75: //-------- LEFT ARROW ----------
             //Decreasing year
                 if(nyr==1945)
@@ -176,10 +195,8 @@ int main()
             //Go to particular year and month
                 system("cls");
                 goto enteryear;
-        case 114: //------------r key--------------
-            pop(stacktop);
-            break;
         }
+        
         }
 
     }
